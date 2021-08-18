@@ -10,14 +10,12 @@ def ddb_return():
         aws_secret_access_key=f'{AWS_SECRET}', \
         region_name="us-east-1")
         
+    
     response = client.scan(
-        TableName="Weather",
-        Limit=1
+        TableName="Weather"
     )
     
-    r1 = response['Items'][0]['ID']['S']
-    r2 = response['Items'][0]['Temperature']['S']
-    r3 = response['Items'][0]['Date']['S']
-
-    return f"The Current Weather in Dallas is {r2} on {r3}" \
-        f"The ID of this result is {r1}"
+    r1 = response['Items'][-1]['Temperature']['S']
+    r2 = response['Items'][-1]['Date']['S']
+    
+    return f"The Current Weather in Dallas is {r1} on {r2}"

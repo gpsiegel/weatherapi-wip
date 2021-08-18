@@ -1,8 +1,7 @@
 import os
-import uuid
 import requests
 import boto3
-from datetime import date
+import datetime
 
 AWS_KEY = os.environ.get('AWS_KEY')
 AWS_SECRET = os.environ.get('AWS_SECRET')
@@ -28,21 +27,23 @@ def weather_results():
     return temps
 
 def ddb_load(temp):
-    id = uuid.uuid4()
-    date_now = date.today()
-    current = date_now.strftime("%d/%m/%Y")
+    
+    date_now = datetime.datetime.now()
+    current = date_now.strftime('%Y-%m-%d-%H:%M:%S')
 
     table = ddb.Table('Weather')
     loads = table.put_item(
         Item={
-            'ID': f'{id}',
-            'Temperature': f'{temp}',
-            'Date': f'{current}'
+            'Date': f'{current}',
+            'Temperature': f'{temp}'
         }
     )
     
     return loads
 
 if __name__ == '__main__':
-    tmp = weather_results()
-    ddb_load(tmp)
+    try:
+        tmp = weather_results()
+        ddb_load(tmp)
+    except Exception as e:
+        print(e)
