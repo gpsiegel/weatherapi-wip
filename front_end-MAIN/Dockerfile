@@ -7,8 +7,8 @@ ARG AWS_SECRET
 ENV AWS_KEY=$AWS_KEY
 ENV AWS_SECRET=$AWS_SECRET
 
-# By default, listen on port 5000
-EXPOSE 5000/tcp
+# By default, listen on port 8000
+EXPOSE 8000/tcp
 
 # Set the working directory in the container
 WORKDIR /app/
@@ -23,4 +23,4 @@ RUN pip install -r requirements.txt
 COPY . /app/
 
 # Specify the command to run on container start
-CMD [ "python", "./app.py" ]
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "app"]
