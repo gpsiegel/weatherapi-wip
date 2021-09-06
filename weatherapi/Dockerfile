@@ -3,9 +3,11 @@ FROM python:3.8-alpine
 #Create environment variables
 ARG AWS_KEY
 ARG AWS_SECRET
+ARG API_KEY
 
 ENV AWS_KEY=$AWS_KEY
 ENV AWS_SECRET=$AWS_SECRET
+ENV API_KEY=$API_KEY
 
 # Set the working directory in the container
 WORKDIR /app/
@@ -20,4 +22,4 @@ RUN pip install -r requirements.txt
 COPY . /app/
 
 # Specify the command to run on container start
-CMD [ "python", "scan.py" ]
+CMD [ "python3", "scan.py" ]
